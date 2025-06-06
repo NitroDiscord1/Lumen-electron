@@ -1,0 +1,23 @@
+{
+  "name": "lumen-electron",
+  "version": "1.0.0",
+  "description": "Navegador Lumen basado en Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^26.2.0",
+    "electron-builder": "^23.6.0"
+  },
+  "build": {
+    "appId": "com.tuusuario.lumen",
+    "win": {
+      "target": "nsis"
+    },
+    "directories": {
+      "output": "dist"
+    }
+  }
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lumen Browser - Buscador propio</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    margin: 0; padding: 20px;
+    display: flex; flex-direction: column; align-items: center;
+    height: 100vh;
+    box-sizing: border-box;
+  }
+  h1 {
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  #searchBox {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+  }
+  input[type="text"] {
+    flex-grow: 1;
+    padding: 12px 15px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 6px 0 0 6px;
+    outline: none;
+  }
+  button {
+    background: #00c6ff;
+    border: none;
+    color: #004e92;
+    font-weight: 700;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    border-radius: 0 6px 6px 0;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #0073b1;
+    color: white;
+  }
+  #results {
+    margin-top: 30px;
+    max-width: 600px;
+    width: 100%;
+  }
+  #results ul {
+    list-style: none;
+    padding: 0;
+  }
+  #results li {
+    background: rgba(255,255,255,0.15);
+    margin-bottom: 12px;
+    border-radius: 6px;
+    padding: 15px 20px;
+    transition: background 0.3s ease;
+  }
+  #results li:hover {
+    background: rgba(255,255,255,0.3);
+  }
+  #results a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+</style>
+</head>
+<body>
+
+<h1>Lumen Browser</h1>
+
+<div id="searchBox">
+  <input type="text" id="query" placeholder="Escribe para buscar..." />
+  <button onclick="search()">Buscar</button>
+</div>
+
+<div id="results"></div>
+
+<script>
+  function search() {
+    const q = document.getElementById('query').value.trim();
+    if (!q) {
+      alert("Por favor escribe algo para buscar.");
+      return;
+    }
+
+    const sites = [
+      {name: "Google", url: `https://www.google.com/search?q=${encodeURIComponent(q)}`},
+      {name: "Brave (Privacidad)", url: `https://search.brave.com/search?q=${encodeURIComponent(q)}`},
+      {name: "DuckDuckGo", url: `https://duckduckgo.com/?q=${encodeURIComponent(q)}`},
+      {name: "Bing", url: `https://www.bing.com/search?q=${encodeURIComponent(q)}`}
+    ];
+
+    let html = "<ul>";
+    sites.forEach(site => {
+      html += `<li><a href="${site.url}" target="_blank" rel="noopener noreferrer">${site.name} - Buscar "${q}"</a></li>`;
+    });
+    html += "</ul>";
+
+    document.getElementById("results").innerHTML = html;
+  }
+
+  // Ejecutar búsqueda con Enter
+  document.getElementById('query').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      search();
+    }
+  });
+</script>
+
+</body>
+</html>
