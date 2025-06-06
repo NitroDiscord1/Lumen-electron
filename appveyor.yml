@@ -1,0 +1,16 @@
+version: 1.0.{build}
+image: Visual Studio 2022
+
+environment:
+  NODE_VERSION: 18
+
+install:
+  - ps: Install-Product node $env:NODE_VERSION
+
+build_script:
+  - npm install
+  - npm run dist
+
+artifacts:
+  - path: dist\*
+    name: installer
