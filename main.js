@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 require('dotenv').config();
 
@@ -8,13 +8,19 @@ function createWindow() {
     height: 720,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: true
     },
     icon: path.join(__dirname, 'lumen-logo.ico')
   });
   win.loadFile('lumen.html');
 }
+
+const { getAIResponse } = require('./api.js');
+
+ipcMain.handle('ask-ai', async (event, prompt) => {
+  const response = await getAIResponse(prompt);
+  return response;
+});
 
 app.whenReady().then(() => {
   createWindow();

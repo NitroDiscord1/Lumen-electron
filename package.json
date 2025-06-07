@@ -1,7 +1,7 @@
 {
   "name": "lumen-browser",
-  "version": "3.0.0",
-  "description": "Lumen Browser con IA real, temas y motor de búsqueda funcional",
+  "version": "3.1.0",
+  "description": "Lumen Browser con IA real, Brave Search y diseño avanzado",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
