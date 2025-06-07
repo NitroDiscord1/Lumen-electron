@@ -7,7 +7,8 @@ function createWindow() {
     height: 720,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
-    }
+    },
+    icon: path.join(__dirname, 'lumen-logo.png')
   });
   win.loadFile('lumen.html');
 }

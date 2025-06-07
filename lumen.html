@@ -4,83 +4,111 @@
   <meta charset="UTF-8">
   <title>Lumen Browser</title>
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #121212;
+      color: white;
       font-family: 'Segoe UI', sans-serif;
-      background: #0f0f0f;
-      color: #fff;
     }
-    .search-container {
+    header {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+      padding: 10px 20px;
+      background: #1f1f1f;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
-    input[type="text"] {
-      width: 60%;
-      padding: 15px;
-      border-radius: 12px;
+    header img {
+      height: 32px;
+      margin-right: 15px;
+    }
+    .search-bar {
+      flex-grow: 1;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 10px 15px;
+      border-radius: 20px;
       border: none;
-      font-size: 18px;
       outline: none;
+      font-size: 16px;
+      background: #292929;
+      color: white;
     }
     .ai-button {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: #2929ff;
-      color: white;
+      background: #824cff;
       border: none;
+      color: white;
+      font-size: 18px;
+      width: 55px;
+      height: 55px;
       border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 24px;
+      box-shadow: 0 0 12px #824cffaa;
       cursor: pointer;
-      box-shadow: 0 0 10px #2929ff;
     }
     #ai-panel {
       position: fixed;
-      bottom: 90px;
       right: 20px;
-      width: 300px;
+      bottom: 90px;
+      width: 320px;
       max-height: 400px;
-      background: #1a1a1a;
+      background: #222;
       border-radius: 12px;
-      padding: 15px;
       display: none;
       flex-direction: column;
-      box-shadow: 0 0 15px #2929ff66;
+      padding: 15px;
+      box-shadow: 0 0 15px #824cff55;
+    }
+    #ai-input {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 10px;
+      background: #333;
+      color: white;
+    }
+    .send {
+      padding: 8px;
+      background: #824cff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
     #ai-output {
-      height: 200px;
-      overflow-y: auto;
       margin-top: 10px;
       background: #111;
       padding: 10px;
       border-radius: 8px;
-    }
-    button.send {
-      margin-top: 10px;
-      background: #2929ff;
-      border: none;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
+      overflow-y: auto;
+      max-height: 200px;
     }
   </style>
 </head>
 <body>
-  <div class="search-container">
-    <input type="text" placeholder="Buscar con Lumen...">
-  </div>
+  <header>
+    <img src="lumen-logo.png" alt="Lumen Logo">
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar con Lumen...">
+    </div>
+  </header>
+
   <button class="ai-button" onclick="toggleAIPanel()">🤖</button>
+
   <div id="ai-panel">
-    <textarea id="ai-input" rows="3" style="width: 100%;"></textarea>
+    <textarea id="ai-input" rows="3" placeholder="Escribe tu pregunta..."></textarea>
     <button class="send" onclick="sendPrompt()">Enviar</button>
     <div id="ai-output"></div>
   </div>
+
   <script>
     function toggleAIPanel() {
       const panel = document.getElementById('ai-panel');
@@ -89,11 +117,9 @@
     function sendPrompt() {
       const input = document.getElementById('ai-input').value;
       const output = document.getElementById('ai-output');
-      // Simulación básica de IA local
       if (!input.trim()) return;
-      const response = "Lumen AI responde a: "" + input + """;
       const p = document.createElement('p');
-      p.textContent = response;
+      p.textContent = "Lumen AI dice: " + input;
       output.appendChild(p);
       document.getElementById('ai-input').value = '';
     }
