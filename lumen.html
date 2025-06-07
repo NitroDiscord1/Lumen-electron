@@ -4,92 +4,72 @@
   <meta charset="UTF-8">
   <title>Lumen Browser</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
-      background: #121212;
-      color: white;
+      margin: 0;
       font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: white;
     }
     header {
       display: flex;
       align-items: center;
+      background: #1e1e1e;
       padding: 10px 20px;
-      background: #1f1f1f;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
     header img {
-      height: 32px;
-      margin-right: 15px;
+      height: 30px;
+      margin-right: 10px;
     }
     .search-bar {
       flex-grow: 1;
     }
     .search-bar input {
       width: 100%;
-      padding: 10px 15px;
+      padding: 10px;
       border-radius: 20px;
       border: none;
-      outline: none;
-      font-size: 16px;
-      background: #292929;
+      background-color: #2a2a2a;
       color: white;
+    }
+    .theme-selector {
+      margin-left: 15px;
     }
     .ai-button {
       position: fixed;
       bottom: 20px;
       right: 20px;
       background: #824cff;
-      border: none;
       color: white;
-      font-size: 18px;
+      border: none;
+      border-radius: 50%;
       width: 55px;
       height: 55px;
-      border-radius: 50%;
-      box-shadow: 0 0 12px #824cffaa;
+      font-size: 18px;
       cursor: pointer;
     }
     #ai-panel {
       position: fixed;
-      right: 20px;
       bottom: 90px;
-      width: 320px;
-      max-height: 400px;
+      right: 20px;
+      width: 300px;
       background: #222;
-      border-radius: 12px;
+      padding: 10px;
+      border-radius: 10px;
       display: none;
-      flex-direction: column;
-      padding: 15px;
-      box-shadow: 0 0 15px #824cff55;
     }
-    #ai-input {
+    #ai-panel textarea {
       width: 100%;
-      padding: 8px;
-      font-size: 14px;
-      border-radius: 8px;
-      border: none;
-      margin-bottom: 10px;
+      height: 60px;
       background: #333;
       color: white;
-    }
-    .send {
-      padding: 8px;
-      background: #824cff;
-      color: white;
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
+      padding: 10px;
+      border-radius: 5px;
     }
     #ai-output {
       margin-top: 10px;
-      background: #111;
-      padding: 10px;
-      border-radius: 8px;
+      max-height: 150px;
       overflow-y: auto;
-      max-height: 200px;
     }
   </style>
 </head>
@@ -97,31 +77,56 @@
   <header>
     <img src="lumen-logo.png" alt="Lumen Logo">
     <div class="search-bar">
-      <input type="text" placeholder="Buscar con Lumen...">
+      <form onsubmit="doSearch(event)">
+        <input id="searchInput" type="text" placeholder="Buscar con Lumen...">
+      </form>
+    </div>
+    <div class="theme-selector">
+      <select onchange="changeTheme(this.value)">
+        <option value="dark">Oscuro</option>
+        <option value="light">Claro</option>
+        <option value="gamer">Gamer</option>
+      </select>
     </div>
   </header>
 
-  <button class="ai-button" onclick="toggleAIPanel()">🤖</button>
+  <iframe id="browserFrame" src="https://www.google.com" width="100%" height="600px" style="border:none;"></iframe>
 
+  <button class="ai-button" onclick="toggleAIPanel()">🤖</button>
   <div id="ai-panel">
-    <textarea id="ai-input" rows="3" placeholder="Escribe tu pregunta..."></textarea>
-    <button class="send" onclick="sendPrompt()">Enviar</button>
+    <textarea id="ai-input" placeholder="Escribe tu pregunta..."></textarea>
+    <button onclick="sendToAI()">Enviar</button>
     <div id="ai-output"></div>
   </div>
 
   <script>
-    function toggleAIPanel() {
-      const panel = document.getElementById('ai-panel');
-      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    const iframe = document.getElementById("browserFrame");
+
+    function doSearch(event) {
+      event.preventDefault();
+      const query = document.getElementById("searchInput").value;
+      iframe.src = "https://www.google.com/search?q=" + encodeURIComponent(query);
     }
-    function sendPrompt() {
-      const input = document.getElementById('ai-input').value;
-      const output = document.getElementById('ai-output');
-      if (!input.trim()) return;
-      const p = document.createElement('p');
-      p.textContent = "Lumen AI dice: " + input;
-      output.appendChild(p);
-      document.getElementById('ai-input').value = '';
+
+    function toggleAIPanel() {
+      const panel = document.getElementById("ai-panel");
+      panel.style.display = panel.style.display === "block" ? "none" : "block";
+    }
+
+    async function sendToAI() {
+      const input = document.getElementById("ai-input").value;
+      const output = document.getElementById("ai-output");
+
+      const { getAIResponse } = require('./api.js');
+      const response = await getAIResponse(input);
+      const para = document.createElement("p");
+      para.textContent = "Lumen AI: " + response;
+      output.appendChild(para);
+    }
+
+    function changeTheme(theme) {
+      document.body.style.backgroundColor = theme === "light" ? "#f4f4f4" : theme === "gamer" ? "#0f0f1f" : "#121212";
+      document.body.style.color = theme === "light" ? "black" : "white";
     }
   </script>
 </body>

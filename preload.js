@@ -1,1 +1,1 @@
-// Preload script para futuras mejoras
+// Preparado para futuras integraciones

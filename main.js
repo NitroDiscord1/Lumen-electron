@@ -1,14 +1,17 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+require('dotenv').config();
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1024,
+    width: 1080,
     height: 720,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      contextIsolation: false
     },
-    icon: path.join(__dirname, 'lumen-logo.png')
+    icon: path.join(__dirname, 'lumen-logo.ico')
   });
   win.loadFile('lumen.html');
 }
