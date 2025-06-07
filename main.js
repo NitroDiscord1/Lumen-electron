@@ -3,20 +3,17 @@ const path = require('path');
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 900,
-    height: 700,
+    width: 1024,
+    height: 720,
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
     }
   });
-
   win.loadFile('lumen.html');
 }
 
 app.whenReady().then(() => {
   createWindow();
-
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });

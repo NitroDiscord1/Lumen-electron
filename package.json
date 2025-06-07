@@ -1,23 +1,24 @@
 {
-  "name": "lumen-electron",
+  "name": "lumen-browser",
   "version": "1.0.0",
-  "description": "Navegador Lumen basado en Electron",
+  "description": "Navegador Lumen con Lumen AI",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
   },
-  "devDependencies": {
-    "electron": "^26.2.0",
-    "electron-builder": "^23.6.0"
-  },
   "build": {
-    "appId": "com.tuusuario.lumen",
+    "appId": "com.lumen.browser",
+    "productName": "Lumen",
     "win": {
       "target": "nsis"
     },
     "directories": {
       "output": "dist"
     }
+  },
+  "devDependencies": {
+    "electron": "^29.0.0",
+    "electron-builder": "^24.0.0"
   }
 }
